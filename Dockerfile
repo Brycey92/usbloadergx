@@ -13,7 +13,7 @@ RUN mkdir /projectroot
 # Now we have a container that has the dev environment set up. 
 # Copy current folder into container, then compile
 COPY . /projectroot/
-RUN cd /projectroot && make clean && make -j8 dist
+RUN cd /projectroot && make clean && make -j $(nproc) dist
 
 RUN cat /opt/devkitpro/devkitPPC/powerpc-eabi/include/sys/iosupport.h
 
