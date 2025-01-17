@@ -1162,6 +1162,10 @@ int GameBooter::BootDevolution(struct discHdr *gameHdr)
 		{
 			snprintf(DEVO_memCard, sizeof(DEVO_memCard), "%s:/apps/gc_devo/memcard_%c.bin", DeviceHandler::GetDevicePrefix(RealPath), gameHdr->id[3]);
 		}
+		else if (devoMCEmulation == DEVO_MC_REGIONAL)
+		{
+			snprintf(DEVO_memCard, sizeof(DEVO_memCard), "%s:/apps/gc_devo/memcard_%c.bin", DeviceHandler::GetDevicePrefix(RealPath), gameHdr->id[3]);
+		}
 		else // same for all games
 		{
 			snprintf(DEVO_memCard, sizeof(DEVO_memCard), "%s:/apps/gc_devo/memcard.bin", DeviceHandler::GetDevicePrefix(RealPath));
@@ -1224,6 +1228,12 @@ int GameBooter::BootDevolution(struct discHdr *gameHdr)
 	gprintf("DEVO: Loading game: %s\n", disc1);
 	gprintf("DEVO: Memory Card: %s\n\n", DEVO_memCard);
 	gprintf("%.72s", (const char *)loader_bin + 4);
+
+	if (returnToChoice)
+	{
+		loadStub();
+		Set_Stub(returnToChoice);
+	}
 
 	if (returnToChoice)
 	{
