@@ -1023,20 +1023,29 @@ msgstr "16:9'a Zorla"
 msgid "Force 4:3"
 msgstr "4:3'e Zorla"
 
-msgid "Force NTSC"
-msgstr "NTSC'ye Zorla"
+msgid "Force NTSC 240p60"
+msgstr "NTSC 240p60'a Zorla"
 
-msgid "Force NTSC480p"
-msgstr "NTSC480p'ye Zorla"
+msgid "Force NTSC 480i60"
+msgstr "NTSC 480i60'a Zorla"
 
-msgid "Force PAL480p"
-msgstr "PAL480p'ye Zorla"
+msgid "Force NTSC 480p60"
+msgstr "NTSC 480p60'a Zorla"
 
-msgid "Force PAL50"
-msgstr "PAL50'ye Zorla"
+msgid "Force PAL 240p60"
+msgstr "PAL 240p60'a Zorla"
 
-msgid "Force PAL60"
-msgstr "PAL60'a Zorla"
+msgid "Force PAL 288p50"
+msgstr "PAL 288p50'ye Zorla"
+
+msgid "Force PAL 480i60"
+msgstr "PAL 480i60'a Zorla"
+
+msgid "Force PAL 480p60"
+msgstr "PAL 480p60'a Zorla"
+
+msgid "Force PAL 576i50"
+msgstr "PAL 576i50'ye Zorla"
 
 msgid "Force Widescreen"
 msgstr "Widescreen'e Zorla"
@@ -1247,6 +1256,9 @@ msgstr "Saat"
 
 msgid "How to Shutdown?"
 msgstr "Nasıl Kapatılsın?"
+
+msgid "If you experience any issues, please reset your Wii and choose a different video mode."
+msgstr ""
 
 msgid "Import Categories"
 msgstr "Kategorileri İçe Aktar"
@@ -2191,6 +2203,9 @@ msgstr "Tema Başlığı:"
 msgid "Themes by www.spiffy360.com"
 msgstr "Www.spiffy360.com'un temaları"
 
+msgid "These video modes do not work with most games. They also do not work at all on Wii U consoles. Proceed anyways?"
+msgstr ""
+
 msgid "This IOS is the BootMii IOS. If you are sure it is not BootMii and you have something else installed there than ignore this warning."
 msgstr "Bu IOS, BootMii IOS'tur. BootMii olmadığından eminseniz ve orada kurulu başka bir şey varsa bu uyarıyı dikkate almayın."
 
@@ -2500,6 +2515,9 @@ msgstr "Yanlış Parola"
 
 msgid "Yes"
 msgstr "Evet"
+
+msgid "You are attempting to access the 240p and 288p forced video modes. These video modes are currently HIGHLY experimental."
+msgstr ""
 
 msgid "You are trying to select a FAT32/NTFS/EXT partition with cIOS 249 Rev < 18. This is not supported. Continue on your own risk."
 msgstr "cIOS 249 Rev < 18'e sahip bir FAT32/NTFS/EXT bölümü seçmeye çalışıyorsunuz. Bu desteklenmiyor. Risk size ait olmak üzere devam edin."
