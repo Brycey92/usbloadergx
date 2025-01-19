@@ -178,7 +178,7 @@ void HardDriveSM::SetOptionValues()
 
 	//! Settings: SD Card Mode
 	if (strncmp(Settings.ConfigPath, "sd", 2) == 0)
-		Options->SetValue(Idx++, "%s", tr( OnOffText[Settings.SDMode] ));
+		Options->SetValue(Idx++, "%s", tr( OnOffText[Settings.ArgSDMode] ));
 
 	//! Settings: USB Port
 	if(NewSettingsUSBPort == 2)
