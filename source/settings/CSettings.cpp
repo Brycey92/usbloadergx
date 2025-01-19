@@ -152,6 +152,8 @@ void CSettings::SetDefault()
 	HomeMenu = HOME_MENU_DEFAULT;
 	MultiplePartitions = OFF;
 	BlockIOSReload = AUTO;
+	SDMode = 0;
+	ArgSDMode = 0;
 	USBPort = 0;
 	USBAutoMount = ON;
 	WSFactor = 0.8f; //actually should be 0.75 for real widescreen
@@ -398,6 +400,7 @@ bool CSettings::Save()
 	fprintf(file, "returnTo = %s\n", returnTo);
 	fprintf(file, "HomeMenu = %d\n", HomeMenu);
 	fprintf(file, "MultiplePartitions = %d\n", MultiplePartitions);
+	fprintf(file, "SDMode = %d\n", ArgSDMode);
 	fprintf(file, "USBPort = %d\n", USBPort);
 	fprintf(file, "USBAutoMount = %d\n", USBAutoMount);
 	fprintf(file, "BlockIOSReload = %d\n", BlockIOSReload);

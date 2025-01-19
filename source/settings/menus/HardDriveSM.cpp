@@ -144,6 +144,7 @@ HardDriveSM::~HardDriveSM()
 		}
 		if(OldSettingsSDMode != Settings.SDMode)
 		{
+			Settings.ArgSDMode = Settings.SDMode;
 			Settings.NandEmuMode = EMUNAND_OFF;
 			RemoveDirectory(Settings.GameHeaderCachePath);
 			RebootApp();

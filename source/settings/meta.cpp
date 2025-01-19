@@ -98,7 +98,7 @@ int editMetaArguments()
 			fputs(line, destination);
 			snprintf(line, max_line_size, "		<arg>--mountusb=%d</arg>\n", Settings.USBAutoMount);
 			fputs(line, destination);
-			snprintf(line, max_line_size, "		<arg>--sdmode=%d</arg>\n", Settings.SDMode);
+			snprintf(line, max_line_size, "		<arg>--sdmode=%d</arg>\n", Settings.ArgSDMode);
 			fputs(line, destination);
 
 			while (strstr(line, "</arguments>") == NULL)

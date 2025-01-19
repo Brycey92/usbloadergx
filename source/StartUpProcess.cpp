@@ -148,6 +148,7 @@ int StartUpProcess::ParseArguments(int argc, char *argv[])
 			if (ptr)
 			{
 				Settings.SDMode = LIMIT(atoi(ptr + strlen("-sdmode=")), 0, 1);
+				Settings.ArgSDMode = Settings.SDMode;
 				if (Settings.SDMode)
 					sdhc_mode_sd = 1;
 			}
@@ -343,6 +344,10 @@ int StartUpProcess::Execute(bool quickGameBoot)
 
 	SetTextf("Loading config files\n");
 	gprintf("\tLoading config...%s\n", Settings.Load() ? "done" : "failed");
+	// enable SD mode if either meta.xml arguments or config file has it enabled
+	Settings.SDMode = Settings.SDMode || Settings.ArgSDMode;
+	if (Settings.SDMode)
+		sdhc_mode_sd = 1;
 	gprintf("\tLoading language...%s\n", Settings.LoadLanguage(Settings.language_path, CONSOLE_DEFAULT) ? "done" : "failed");
 	gprintf("\tLoading game settings...%s\n", GameSettings.Load(Settings.ConfigPath) ? "done" : "failed");
 	gprintf("\tLoading game statistics...%s\n", GameStatistics.Load(Settings.ConfigPath) ? "done" : "failed");
