@@ -251,6 +251,13 @@ bool StartUpProcess::USBSpinUp()
 	} while (countDown.elapsed() < 20.f);
 
 	drawCancel = false;
+	
+	// failover to SD if USB failed to mount
+	if (!started0 && !started1)
+	{
+		Settings.SDMode = ON;
+		sdhc_mode_sd = 1;
+	}
 
 	return (started0 || started1);
 }
