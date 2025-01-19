@@ -33,7 +33,7 @@ ENV DEVKITPPC=/devkitpro/devkitPPC
 COPY . /projectroot/
 RUN cd /projectroot && make clean && make -j $(nproc) dist
 
-RUN cat /opt/devkitpro/devkitPPC/powerpc-eabi/include/sys/iosupport.h
+# RUN cat /opt/devkitpro/devkitPPC/powerpc-eabi/include/sys/iosupport.h
 
 
 # Copy the DOL and ELF out of the container
