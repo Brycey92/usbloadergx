@@ -345,7 +345,15 @@ int StartUpProcess::Execute(bool quickGameBoot)
 	SetTextf("Loading config files\n");
 	gprintf("\tLoading config...%s\n", Settings.Load() ? "done" : "failed");
 	// enable SD mode if either meta.xml arguments or config file has it enabled
-	Settings.SDMode = Settings.SDMode || Settings.ArgSDMode;
+	if (Settings.ArgSDMode != Settings.SDMode)
+	{
+		Settings.ArgSDMode = Settings.SDMode || Settings.ArgSDMode;
+		Settings.SDMode = Settings.ArgSDMode;
+		Settings.Save();
+
+        editMetaArguments();
+		gprintf("Updated meta.xml\n");
+	}
 	if (Settings.SDMode)
 		sdhc_mode_sd = 1;
 	gprintf("\tLoading language...%s\n", Settings.LoadLanguage(Settings.language_path, CONSOLE_DEFAULT) ? "done" : "failed");
@@ -396,7 +404,10 @@ int StartUpProcess::Execute(bool quickGameBoot)
 	}
 
 	if (sdhc_mode_sd)
+	{
 		editMetaArguments();
+		gprintf("Updated meta.xml\n");
+	}
 
 	if (!IosLoader::IsHermesIOS() && !IosLoader::IsD2X() && !Settings.SDMode)
 	{

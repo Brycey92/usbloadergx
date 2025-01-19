@@ -141,6 +141,8 @@ HardDriveSM::~HardDriveSM()
 			// Edit meta.xml arguments
 			editMetaArguments();
 			gprintf("Updated meta.xml\n");
+			
+			Settings.Save();
 		}
 		if(OldSettingsSDMode != Settings.ArgSDMode)
 		{
