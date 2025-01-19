@@ -241,6 +241,7 @@ bool RebootApp(void)
 {
 	// Be sure to use current settings as arguments
 	editMetaArguments();
+	gprintf("Updated meta.xml\n");
 	
 #ifdef FULLCHANNEL
 	ExitApp();

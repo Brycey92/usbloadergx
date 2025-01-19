@@ -157,6 +157,7 @@ int StartUpProcess::ParseArguments(int argc, char *argv[])
 			if (ptr)
 			{
 				Settings.SDMode = LIMIT(atoi(ptr + strlen("-sdmode=")), 0, 1);
+				Settings.ArgSDMode = Settings.SDMode;
 				if (Settings.SDMode)
 					sdhc_mode_sd = 1;
 			}
@@ -249,6 +250,8 @@ bool StartUpProcess::USBSpinUp()
 
 		if (sdmodeBtn->GetState() == STATE_CLICKED)
 		{
+			messageTxt->SetTextf("Switching to SD mode...\n");
+			Draw();
 			Settings.SDMode = ON;
 			sdhc_mode_sd = 1;
 			break;
@@ -260,6 +263,15 @@ bool StartUpProcess::USBSpinUp()
 	} while (countDown.elapsed() < 20.f);
 
 	drawCancel = false;
+	
+	// failover to SD if USB failed to mount
+	if (!started0 && !started1 && countDown.elapsed() >= 20.f)
+	{
+		messageTxt->SetTextf("USB Device not initialized. Switching to SD mode...\n");
+		Draw();
+		Settings.SDMode = ON;
+		sdhc_mode_sd = 1;
+	}
 
 	return (started0 || started1);
 }
@@ -332,6 +344,18 @@ int StartUpProcess::Execute(bool quickGameBoot)
 
 	SetTextf("Loading config files\n");
 	gprintf("\tLoading config...%s\n", Settings.Load() ? "done" : "failed");
+	// enable SD mode if either meta.xml arguments or config file has it enabled
+	if (Settings.ArgSDMode != Settings.SDMode)
+	{
+		Settings.ArgSDMode = Settings.SDMode || Settings.ArgSDMode;
+		Settings.SDMode = Settings.ArgSDMode;
+		Settings.Save();
+
+		editMetaArguments();
+		gprintf("Updated meta.xml\n");
+	}
+	if (Settings.SDMode)
+		sdhc_mode_sd = 1;
 	gprintf("\tLoading language...%s\n", Settings.LoadLanguage(Settings.language_path, CONSOLE_DEFAULT) ? "done" : "failed");
 	gprintf("\tLoading game settings...%s\n", GameSettings.Load(Settings.ConfigPath) ? "done" : "failed");
 	gprintf("\tLoading game statistics...%s\n", GameStatistics.Load(Settings.ConfigPath) ? "done" : "failed");
@@ -396,8 +420,13 @@ int StartUpProcess::Execute(bool quickGameBoot)
 		}
 	}
 
-	//if (sdhc_mode_sd)
-	//	editMetaArguments();
+	/*
+	if (sdhc_mode_sd)
+	{
+		editMetaArguments();
+		gprintf("Updated meta.xml\n");
+	}
+	*/
 
 	if (!IosLoader::IsHermesIOS() && !IosLoader::IsD2X() && !Settings.SDMode)
 	{

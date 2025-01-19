@@ -246,9 +246,10 @@ class CSettings
 		short GCInstallCompressed;
 		short GCInstallAligned;
 		short PrivateServer;
-		short SDMode;
+		short ArgSDMode;
 
 		// These variables are not saved to the settings file
+		short SDMode;
 		bool FirstTimeRun;
 		bool skipSaving;
 	protected:
