@@ -240,6 +240,7 @@ void CSettings::SetDefault()
 	PrivateServer = OFF;
 	ProxyUseSystem = ON;
 	ProxyPort = 0;
+	IgnoreStandby = OFF;
 }
 
 bool CSettings::Load()
@@ -526,6 +527,7 @@ bool CSettings::Save()
 	fprintf(file, "ProxyPassword = %s\n", ProxyPassword);
 	fprintf(file, "ProxyAddress = %s\n", ProxyAddress);
 	fprintf(file, "ProxyPort = %d\n", ProxyPort);
+	fprintf(file, "IgnoreStandby = %d\n", IgnoreStandby);
 	fclose(file);
 
 	return true;
@@ -1438,6 +1440,11 @@ bool CSettings::SetSetting(char *name, char *value)
 	{
 		PrivateServer = atoi(value);
 		return true;
+	}
+	else if(strcmp(name, "IgnoreStandby") == 0)
+	{
+		IgnoreStandby = atoi(value);
+        return true;
 	}
 	else if (strcmp(name, "EnabledCategories") == 0)
 	{

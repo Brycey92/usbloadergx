@@ -104,6 +104,7 @@ class CSettings
 		char ProxyAddress[256];
 		u16 ProxyPort;
 		short ProxyUseSystem;
+        short IgnoreStandby;
 		short videomode;
 		short language;
 		short ocarina;
