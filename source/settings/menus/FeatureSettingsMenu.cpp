@@ -110,6 +110,7 @@ void FeatureSettingsMenu::SetOptionNames()
 	Options->SetName(Idx++, "%s", tr( "System Proxy Settings" ));
 	Options->SetName(Idx++, "%s", tr( "Messageboard Update" ));
 	Options->SetName(Idx++, "%s", tr( "Wiinnertag" ));
+	Options->SetName(Idx++, "%s", tr( "Ignore Standby" ));
 	Options->SetName(Idx++, "%s", tr( "Import Categories" ));
 	Options->SetName(Idx++, "%s", tr( "Export All Saves to EmuNAND" ));
 	Options->SetName(Idx++, "%s", tr( "Export Miis to EmuNAND" ));
@@ -151,6 +152,9 @@ void FeatureSettingsMenu::SetOptionValues()
 
 	//! Settings: Wiinnertag
 	Options->SetValue(Idx++, "%s", tr( OnOffText[Settings.Wiinnertag] ));
+
+	//! Settings: Ignore Standby
+	Options->SetValue(Idx++, "%s", tr( OnOffText[Settings.IgnoreStandby] ));
 
 	//! Settings: Import categories from GameTDB
 	Options->SetValue(Idx++, " ");
@@ -274,6 +278,12 @@ int FeatureSettingsMenu::GetMenuInternal()
 				}
 			}
 		}
+	}
+
+	//! Settings: Ignore Standby
+	else if (ret == ++Idx )
+	{
+		if (++Settings.IgnoreStandby >= MAX_ON_OFF) Settings.IgnoreStandby = 0;
 	}
 
 	//! Settings: Import categories from GameTDB

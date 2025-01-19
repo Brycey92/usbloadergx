@@ -153,7 +153,7 @@ static void _Sys_Shutdown(int SHUTDOWN_MODE)
 	ExitApp();
 
 	/* Poweroff console */
-	if ((CONF_GetShutdownMode() == CONF_SHUTDOWN_IDLE && SHUTDOWN_MODE != ShutdownToStandby) || SHUTDOWN_MODE
+	if ((Settings.IgnoreStandby && SHUTDOWN_MODE == ShutdownToDefault) || (CONF_GetShutdownMode() == CONF_SHUTDOWN_IDLE && SHUTDOWN_MODE != ShutdownToStandby) || SHUTDOWN_MODE
 			== ShutdownToIdle)
 	{
 		s32 ret;
