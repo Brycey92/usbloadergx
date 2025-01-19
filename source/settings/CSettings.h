@@ -249,7 +249,6 @@ class CSettings
 		short SDMode;
 		bool FirstTimeRun;
 		bool skipSaving;
-		short SDMode;
 	protected:
 		bool ValidVersion(FILE * file);
 		bool ValidateURL(char *value, int type = 0);
