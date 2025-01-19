@@ -91,7 +91,7 @@ HardDriveSM::HardDriveSM()
 
 	OldSettingsPartition = Settings.partition;
 	OldSettingsMultiplePartitions = Settings.MultiplePartitions;
-	OldSettingsSDMode = Settings.SDMode;
+	OldSettingsSDMode = Settings.ArgSDMode;
 	NewSettingsUSBPort = Settings.USBPort;
 	oldSettingsUSBAutoMount = Settings.USBAutoMount;
 
@@ -100,15 +100,15 @@ HardDriveSM::HardDriveSM()
 
 HardDriveSM::~HardDriveSM()
 {
-	gprintf("SD mode %i\n", Settings.SDMode);
+	gprintf("Arg SD mode %i\n", Settings.ArgSDMode);
 	//! if partition has changed, Reinitialize it
 	if (Settings.partition != OldSettingsPartition ||
 		Settings.MultiplePartitions != OldSettingsMultiplePartitions ||
 		Settings.USBPort != NewSettingsUSBPort ||
 		Settings.USBAutoMount != oldSettingsUSBAutoMount ||
-		Settings.SDMode != OldSettingsSDMode)
+		Settings.ArgSDMode != OldSettingsSDMode)
 	{
-		if(!Settings.SDMode)
+		if(!Settings.ArgSDMode)
 		{
 			WBFS_CloseAll();
 
@@ -125,7 +125,7 @@ HardDriveSM::~HardDriveSM()
 				NewSettingsUSBPort = -1;
 			}
 
-			WBFS_Init(Settings.SDMode ? WBFS_DEVICE_SDHC : WBFS_DEVICE_USB);
+			WBFS_Init(Settings.ArgSDMode ? WBFS_DEVICE_SDHC : WBFS_DEVICE_USB);
 			if(Settings.MultiplePartitions)
 				WBFS_OpenAll();
 			else
@@ -136,15 +136,14 @@ HardDriveSM::~HardDriveSM()
 			gameList.LoadUnfiltered();
 		}
 		
-		if(oldSettingsUSBAutoMount != Settings.USBAutoMount || NewSettingsUSBPort == -1 || OldSettingsSDMode != Settings.SDMode)
+		if(oldSettingsUSBAutoMount != Settings.USBAutoMount || NewSettingsUSBPort == -1 || OldSettingsSDMode != Settings.ArgSDMode)
 		{
 			// Edit meta.xml arguments
 			editMetaArguments();
 			gprintf("Updated meta.xml\n");
 		}
-		if(OldSettingsSDMode != Settings.SDMode)
+		if(OldSettingsSDMode != Settings.ArgSDMode)
 		{
-			Settings.ArgSDMode = Settings.SDMode;
 			Settings.NandEmuMode = EMUNAND_OFF;
 			RemoveDirectory(Settings.GameHeaderCachePath);
 			RebootApp();
@@ -159,7 +158,7 @@ void HardDriveSM::SetOptionValues()
 	//! Settings: Game/Install Partition
 	PartitionHandle *handle;
 	int checkPart = 0;
-	if (!Settings.SDMode)
+	if (!Settings.ArgSDMode)
 	{
 		handle = DeviceHandler::Instance()->GetUSBHandleFromPartition(Settings.partition);
 		checkPart = DeviceHandler::PartitionToPortPartition(Settings.partition);
@@ -226,7 +225,7 @@ int HardDriveSM::GetMenuInternal()
 	if (ret == ++Idx)
 	{
 		PartitionHandle *handle; 
-		if (Settings.SDMode)
+		if (Settings.ArgSDMode)
 		{
 			handle = DeviceHandler::Instance()->GetSDHandle();
 		}
@@ -244,7 +243,7 @@ int HardDriveSM::GetMenuInternal()
 		int retries = 20;
 		do
 		{
-			if (Settings.SDMode)
+			if (Settings.ArgSDMode)
 			{
 				Settings.partition = 0;
 				fs_type = DeviceHandler::GetFilesystemType(SD);
@@ -270,7 +269,7 @@ int HardDriveSM::GetMenuInternal()
 	//! Settings: SD Card Mode
 	else if (strncmp(Settings.ConfigPath, "sd", 2) == 0 && ret == ++Idx)
 	{
-		if (++Settings.SDMode >= MAX_ON_OFF) Settings.SDMode = 0;
+		if (++Settings.ArgSDMode >= MAX_ON_OFF) Settings.ArgSDMode = 0;
 	}
 
 	//! Settings: USB Port
@@ -304,7 +303,7 @@ int HardDriveSM::GetMenuInternal()
 	{
 		if (++Settings.GameSplit >= GAMESPLIT_MAX)
 		{
-			if (DeviceHandler::GetFilesystemType(Settings.SDMode ? SD : USB1+Settings.partition) == PART_FS_FAT)
+			if (DeviceHandler::GetFilesystemType(Settings.ArgSDMode ? SD : USB1+Settings.partition) == PART_FS_FAT)
 				Settings.GameSplit = GAMESPLIT_2GB;
 			else
 				Settings.GameSplit = GAMESPLIT_NONE;
@@ -348,14 +347,14 @@ int HardDriveSM::GetMenuInternal()
 		if (choice)
 		{
 			StartProgress(tr("Synchronizing..."), tr("Please wait..."), 0, false, false);
-			int partCount = Settings.SDMode ? 1 : DeviceHandler::GetUSBPartitionCount();
+			int partCount = Settings.ArgSDMode ? 1 : DeviceHandler::GetUSBPartitionCount();
 			for (int i = 0; i < partCount; ++i)
 			{
 				ShowProgress(i, partCount);
-				if (DeviceHandler::GetFilesystemType(Settings.SDMode ? SD : USB1+i) == PART_FS_FAT)
+				if (DeviceHandler::GetFilesystemType(Settings.ArgSDMode ? SD : USB1+i) == PART_FS_FAT)
 				{
 					PartitionHandle *handle;
-					if (Settings.SDMode)
+					if (Settings.ArgSDMode)
 						handle = DeviceHandler::Instance()->GetSDHandle();
 					else
 						handle = DeviceHandler::Instance()->GetUSBHandleFromPartition(i);
