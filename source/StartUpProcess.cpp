@@ -241,6 +241,8 @@ bool StartUpProcess::USBSpinUp()
 
 		if (sdmodeBtn->GetState() == STATE_CLICKED)
 		{
+			messageTxt->SetTextf("Switching to SD mode...\n");
+			Draw();
 			Settings.SDMode = ON;
 			sdhc_mode_sd = 1;
 			break;
@@ -254,8 +256,10 @@ bool StartUpProcess::USBSpinUp()
 	drawCancel = false;
 	
 	// failover to SD if USB failed to mount
-	if (!started0 && !started1)
+	if (!started0 && !started1 && countDown.elapsed() >= 20.f)
 	{
+		messageTxt->SetTextf("USB Device not initialized. Switching to SD mode...\n");
+		Draw();
 		Settings.SDMode = ON;
 		sdhc_mode_sd = 1;
 	}
@@ -351,7 +355,7 @@ int StartUpProcess::Execute(bool quickGameBoot)
 		Settings.SDMode = Settings.ArgSDMode;
 		Settings.Save();
 
-        editMetaArguments();
+		editMetaArguments();
 		gprintf("Updated meta.xml\n");
 	}
 	if (Settings.SDMode)
